@@ -1,20 +1,3 @@
-# =============================================================================
-# app.py — HuggingFace Spaces (Gradio)
-# =============================================================================
-# DEPLOY STEPS:
-#   1. huggingface.co → New Space → SDK: Gradio → create
-#   2. Upload this file as app.py
-#   3. Upload requirements.txt
-#   4. Settings → Variables and secrets → add:
-#        AZURE_STORAGE_CONN_STR = your Azure Storage connection string
-#        AZURE_CONTAINER        = crypto-data
-#   5. Space auto-builds → live forever, no PC needed
-#
-# Models load from Azure Blob automatically. After retraining in Notebook 4,
-# just restart the Space — it picks up the latest models.
-# Live data comes from Kraken (no API key, no geo-restrictions).
-# =============================================================================
-
 import json
 import os
 import pickle
@@ -31,7 +14,7 @@ import shap
 
 warnings.filterwarnings("ignore")
 
-# ── Kraken API ────────────────────────────────────────────────────────────────
+# Kraken API
 
 KRAKEN_OHLC   = "https://api.kraken.com/0/public/OHLC"
 KRAKEN_TICKER = "https://api.kraken.com/0/public/Ticker"
@@ -70,7 +53,7 @@ def _azure_container():
     return client.get_container_client(container_name)
 
 
-# ── Model Loading ─────────────────────────────────────────────────────────────
+# Model Loading
 
 def _load_models():
     container = _azure_container()
@@ -104,7 +87,7 @@ except Exception as e:
     print(f"[WARN] Models not loaded: {e}")
 
 
-# ── Kraken Data Fetching ──────────────────────────────────────────────────────
+# Kraken Data Fetching
 
 def fetch_kraken_candles(pair: str, limit: int = 60) -> pd.DataFrame:
     """Fetch the last `limit` hourly candles from Kraken for one pair."""
@@ -139,7 +122,7 @@ def fetch_kraken_ticker(pair: str) -> dict:
         return {}
 
 
-# ── Feature Engineering (mirrors Notebook 4 exactly) ─────────────────────────
+# Feature Engineering (mirrors Notebook 4 exactly)
 
 def compute_features(df: pd.DataFrame) -> dict:
     """Compute all model features for the latest candle in df."""
@@ -220,7 +203,7 @@ def compute_features(df: pd.DataFrame) -> dict:
     }
 
 
-# ── Tab 1: Predict ────────────────────────────────────────────────────────────
+# Predict Tab
 
 def predict(pair: str):
     if not MODELS_OK:
@@ -294,7 +277,7 @@ def predict(pair: str):
         return f"**Error:** {e}", None, None
 
 
-# ── Tab 2: Market Overview ────────────────────────────────────────────────────
+# Market Overview Tab
 
 def market_overview():
     """Fetch live 24h stats for all tracked pairs from Kraken."""
@@ -333,7 +316,7 @@ def market_overview():
     return pd.DataFrame(rows)
 
 
-# ── Tab 3: Similar Coins ──────────────────────────────────────────────────────
+# Similar Coins Tab
 
 def find_similar(pair: str, top_n: int = 8) -> str:
     if LSH_PAIRS is None or len(LSH_PAIRS) == 0:
@@ -357,7 +340,7 @@ def find_similar(pair: str, top_n: int = 8) -> str:
     return "\n".join(lines)
 
 
-# ── Gradio UI ─────────────────────────────────────────────────────────────────
+# Gradio UI
 
 pair_list = list(SYMBOLS.keys())
 
