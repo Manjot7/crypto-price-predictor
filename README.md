@@ -36,7 +36,7 @@ Producer.py  ──►  Azure Service Bus  ──►  Consumer.py
                                                 │
                         ┌───────────────────────┘
                         │
-               Kaggle Notebooks (on demand)
+               Python Notebooks
                         │
                         ├── Ingest_and_Stream: load data + streaming algorithm simulation
                         ├── MapReduce: mrjob MapReduce aggregation
@@ -131,18 +131,18 @@ The Gradio app on HuggingFace Spaces loads models from Azure Blob at startup and
 ## Repository Structure
 
 ```
-├── streaming_local/
+├── Streaming/
 │   ├── Producer.py                # Kraken → Azure Service Bus
 │   └── Consumer.py                # Azure Service Bus → Azure Blob + streaming algorithms
-├── kaggle_notebooks/
+├── Python Notebooks/
 │   ├── Ingest_and_Stream.ipynb
 │   ├── MapReduce.ipynb
 │   ├── LSH.ipynb
 │   └── ML_and_SHAP.ipynb
-├── huggingface_space/
+├── Huggingface Spaces/
 │   ├── app.py
 │   └── requirements.txt
-└── oracle_setup/
+└── Oracle Setup/
     ├── requirements.txt
     ├── crypto-producer.service    # systemd unit file
     └── crypto-consumer.service    # systemd unit file
