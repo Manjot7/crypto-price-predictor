@@ -143,7 +143,6 @@ The Gradio app on HuggingFace Spaces loads models from Azure Blob at startup and
 │   ├── app.py
 │   └── requirements.txt
 └── oracle_setup/
-    ├── SETUP.md                   # Full deployment guide
     ├── requirements.txt
     ├── crypto-producer.service    # systemd unit file
     └── crypto-consumer.service    # systemd unit file
@@ -152,8 +151,6 @@ The Gradio app on HuggingFace Spaces loads models from Azure Blob at startup and
 ---
 
 ## Setup
-
-Full step-by-step instructions are in [`oracle_setup/SETUP.md`](oracle_setup/SETUP.md).
 
 **Prerequisites:**
 - Azure free account (azure.microsoft.com/free)
